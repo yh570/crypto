@@ -11,10 +11,11 @@ KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2,
               'u': 3,'v': 1, 'w': 2, 'x': 1, 'y': 2, 'z': 1}
 
 
+
+# Convert input ciper text to numbers
+# Valid input checking
 def text_to_num_list(text):
   num = []
-  if(len(text) == 0):
-    return num
   for words in text.split(' '):
     temp = []
     for i in words.split(','):
@@ -27,7 +28,9 @@ def text_to_num_list(text):
   return num
 
 
-def length_compare(text, numlist):
+
+# Comparing each words length between ciphertext and plaintext
+def _length_compare(text, numlist):
   for i in range(0, len(text)):
     if len(text[i]) != len(numlist[i]):
       print text[i], len(text[i]), numlist[i], len(numlist[i])
@@ -35,15 +38,23 @@ def length_compare(text, numlist):
   return True
 
 
+
+# Comparing all plaintext sentences' words length with cipertext
 def find_fit_length_plaintext(dictionary,cipher_num):
   itr = []
   for i in range(0,len(dictionary)):
     print dictionary[i]
-    if length_compare(dictionary[i], cipher_num):
+    if _length_compare(dictionary[i], cipher_num):
       itr.append(i)
   return itr
 
 
+
+# Assign the cipher text as key to each characters
+# Using encription rule to check the key paring
+# if assigned key's number is larger than preset size
+# or same number assigned more than one character
+# return false
 def assign_key(text, numlist):
   key_t = KEY_TABLE
   num_key_table = {}
@@ -58,6 +69,7 @@ def assign_key(text, numlist):
         if num_key_table[numlist[i][j]] != text[i][j]:
           return False
   return True
+
 
 
 # main
