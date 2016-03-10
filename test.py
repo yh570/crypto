@@ -1,4 +1,5 @@
 import fileread
+import enc
 
 KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [], 
               'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [], 
@@ -81,8 +82,10 @@ def assign_key(text, numlist):
 # main
 # may add a function later
 plaintext = fileread.PLAINTEXT()
+temp_str = ' '.join(plaintext.dictionary[4])
 while True:
   cipher_text = raw_input("--->")
+  #cipher_text = enc.enc_test_1(temp_str)
   cipher_num = text_to_num_list(cipher_text)
   print len(cipher_num)
   print cipher_num
