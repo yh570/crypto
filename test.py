@@ -20,7 +20,11 @@ def text_to_num_list(text):
     temp = []
     for i in words.split(','):
       if i.isdigit():
-        temp.append(int(i))
+        if 0 <= int(i) <= 102:
+          temp.append(int(i))
+        else:
+          num = []
+          return num
       else:
         num = []
         return num
@@ -31,6 +35,8 @@ def text_to_num_list(text):
 
 # Comparing each words length between ciphertext and plaintext
 def _length_compare(text, numlist):
+  if len(text) != len(numlist):
+    return False
   for i in range(0, len(text)):
     if len(text[i]) != len(numlist[i]):
       print text[i], len(text[i]), numlist[i], len(numlist[i])
@@ -73,6 +79,7 @@ def assign_key(text, numlist):
 
 
 # main
+# may add a function later
 plaintext = fileread.PLAINTEXT()
 while True:
   cipher_text = raw_input("--->")
