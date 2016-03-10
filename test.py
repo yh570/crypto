@@ -40,22 +40,25 @@ def find_fit_length_plaintext(dictionary,cipher_num):
 
 def assign_key(text, numlist):
   key_t = KEY_TABLE
+  num_key_table = {}
   for i in range(0,len(text)):
     for j in range(0,len(text[i])):
-      key_t[text[i][j]].append(numlist[i][j])
-  print key_t
-
-
-
+      if numlist[i][j] not in num_key_table:
+        num_key_table[numlist[i][j]] = text[i][j]
+        key_t[text[i][j]].append(numlist[i][j])
+        if len(key_t[text[i][j]]) > KEY_LENGTH[text[i][j]]:
+          return False
+      else:
+        if num_key_table[numlist[i][j]] != text[i][j]:
+          return False
+  return True
 
 
 # main
 plaintext = fileread.PLAINTEXT()
-print plaintext.english_words
 cipher_text = raw_input("--->")
 cipher_num = text_to_num_list(cipher_text)
 
-print cipher_num
 
 itr = find_fit_length_plaintext(plaintext.dictionary, cipher_num)
 
@@ -63,7 +66,19 @@ if len(itr) == 0:
   print("The cipher text is NOT encrypted from the plaintext of dictionary\n")
 
 else:
-  assign_key(plaintext.dictionary[itr[0]], cipher_num)
+  dict_key = []
+  found_flag = 0
+  for i in itr:
+    if(assign_key(plaintext.dictionary[i], cipher_num)):
+      print "Found a fit plaintext!"
+      print "The plaintext is shown as below:"
+      temp_str = ' '.join(plaintext.dictionary[i])
+      found_flag += 1
+      print temp_str
+  if found_flag > 0:
+    print "Totally found ", found_flag, " plaintext fit for this cipher_text\n"
+  else:
+    print "The input cipher text was not encrypted from known plaintext\n"
 
 
 
