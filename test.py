@@ -13,10 +13,16 @@ KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2,
 
 def text_to_num_list(text):
   num = []
+  if(len(text) == 0):
+    return num
   for words in text.split(' '):
     temp = []
     for i in words.split(','):
-      temp.append(int(i))
+      if i.isdigit():
+        temp.append(int(i))
+      else:
+        num = []
+        return num
     num.append(temp)
   return num
 
@@ -56,8 +62,15 @@ def assign_key(text, numlist):
 
 # main
 plaintext = fileread.PLAINTEXT()
-cipher_text = raw_input("--->")
-cipher_num = text_to_num_list(cipher_text)
+while True:
+  cipher_text = raw_input("--->")
+  cipher_num = text_to_num_list(cipher_text)
+  print len(cipher_num)
+  print cipher_num
+  if len(cipher_num) == 0:
+    print "Invalid cipher text input\n please reinput your cipher\n"
+  else:
+    break
 
 
 itr = find_fit_length_plaintext(plaintext.dictionary, cipher_num)
