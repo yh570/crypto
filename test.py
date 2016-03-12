@@ -1,5 +1,6 @@
 import fileread
 import enc
+from copy import deepcopy
 
 KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [], 
               'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [], 
@@ -63,9 +64,9 @@ def find_fit_length_plaintext(dictionary,cipher_num):
 # or same number assigned more than one character
 # return false
 def assign_key(text, numlist):
-  key_t = KEY_TABLE
-  num_key_table = {}
   for i in range(0,len(text)):
+    key_t = deepcopy(KEY_TABLE)
+    num_key_table = {}
     for j in range(0,len(text[i])):
       if numlist[i][j] not in num_key_table:
         num_key_table[numlist[i][j]] = text[i][j]
