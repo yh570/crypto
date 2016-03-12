@@ -79,37 +79,38 @@ def assign_key(text, numlist):
 
 # main
 # may add a function later
-plaintext = fileread.PLAINTEXT()
-temp_str = ' '.join(plaintext.dictionary[4])
-while True:
-  cipher_text = raw_input("--->")
-  #cipher_text = enc.enc_test_1(temp_str)
-  cipher_num = text_to_num_list(cipher_text)
-  if len(cipher_num) == 0:
-    print "Invalid cipher text input\n please reinput your cipher\n"
+if __name__ == "__main__":
+  plaintext = fileread.PLAINTEXT()
+  temp_str = ' '.join(plaintext.dictionary[4])
+  while True:
+    cipher_text = raw_input("--->")
+    #cipher_text = enc.enc_test_1(temp_str)
+    cipher_num = text_to_num_list(cipher_text)
+    if len(cipher_num) == 0:
+      print "Invalid cipher text input\n please reinput your cipher\n"
+    else:
+      break
+
+
+  itr = find_fit_length_plaintext(plaintext.dictionary, cipher_num)
+
+  if len(itr) == 0:
+    print("The cipher text is NOT encrypted from the plaintext of dictionary\n")
+
   else:
-    break
-
-
-itr = find_fit_length_plaintext(plaintext.dictionary, cipher_num)
-
-if len(itr) == 0:
-  print("The cipher text is NOT encrypted from the plaintext of dictionary\n")
-
-else:
-  dict_key = []
-  found_flag = 0
-  for i in itr:
-    if(assign_key(plaintext.dictionary[i], cipher_num)):
-      print "Found a fit plaintext!"
-      print "The plaintext is shown as below:"
-      temp_str = ' '.join(plaintext.dictionary[i])
-      found_flag += 1
-      print temp_str
-  if found_flag > 0:
-    print "Totally found ", found_flag, " plaintext fit for this cipher_text\n"
-  else:
-    print "The input cipher text was not encrypted from known plaintext\n"
+    dict_key = []
+    found_flag = 0
+    for i in itr:
+      if(assign_key(plaintext.dictionary[i], cipher_num)):
+        print "Found a fit plaintext!"
+        print "The plaintext is shown as below:"
+        temp_str = ' '.join(plaintext.dictionary[i])
+        found_flag += 1
+        print temp_str
+    if found_flag > 0:
+      print "Totally found ", found_flag, " plaintext fit for this cipher_text\n"
+    else:
+      print "The input cipher text was not encrypted from known plaintext\n"
 
 
 
