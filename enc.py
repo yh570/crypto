@@ -3,7 +3,7 @@ import random
 DEBUG = 1
 
 L = 500
-WORDS_NUM = 100
+WORDS_NUM = 25
 KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2,
               'h': 6, 'i': 7,'j': 1, 'k': 1, 'l': 4,'m': 2, 'n': 7,
               'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9,
@@ -76,4 +76,8 @@ if __name__ == "__main__":
   #print test_2_plaintext_gen()
   # print enc_test_2(plaintext = test_2_plaintext_gen())[0]
   # print enc_test_2(plaintext = test_2_plaintext_gen())[1]
-  print test_2_plaintext_gen()
+  plaintext =  test_2_plaintext_gen()
+  print plaintext
+  cipher =  enc_test_2(plaintext)
+  print cipher
+  print len(cipher)
