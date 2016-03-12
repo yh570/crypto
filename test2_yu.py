@@ -1,59 +1,40 @@
-import enc
+"""
+<Program Name>
+  <Hu><Lin><Vadakkalpradeepkumar>-decrypt2.py
+<Purpose>
+  This script implements the decryptor for course CS6903 project1, test#2.
+  The decryptor works for decrypting the cipher text which is 
+  randomly select 500 characters from known plaintext with 100k words,
+  and encrypted by permutatino ciphers.  
+"""
+
+
+
 import fileread
 import time
 from copy import deepcopy
 
+
+
+
+# Initial KEY_TABLE
 KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [], 
               'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [], 
               'o': [],'p': [], 'q': [], 'r': [],'s': [], 't': [], 
               'u': [],'v': [], 'w': [], 'x': [], 'y': [], 'z': []}
 
+
+
+# Settup the encryption rule for each characters
 KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2, 
               'h': 6, 'i': 7,'j': 1, 'k': 1, 'l': 4,'m': 2, 'n': 7, 
               'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9, 
               'u': 3,'v': 1, 'w': 2, 'x': 1, 'y': 2, 'z': 1}
 
 
-def find_repeat_numbers(ciphertext):
-  repeat_numbers_table = {}
-  for i in range(103):
-    repeat_numbers_table[i] = []
-  cipher_text_list = ciphertext.split(" ")
-  print "#1"
-  print cipher_text_list
-  ll = []
-  for word in cipher_text_list:
-    ll.append(word.split(","))
-  print "#2"
-  print ll
-  for number in range(103):
-    for word in ll:
-      if str(number) in word:
-          repeat_numbers_table[number].append(word)
-  return repeat_numbers_table
 
-def get_length_table(ciphertext):
-  length_table = {}
-  cipher_text_list = ciphertext.split(" ")
-  ll = []
-  for word in cipher_text_list:
-    ll.append(word.split(","))
-  for charactor_len in range(1,20):
-    length_table[charactor_len] = []
-  for word in ll:
-    length_table[len(word)].append(word)
-  return length_table
 
-def len_distribution_english_words():
-  f = open("english_words.txt")
-  words = f.readlines()
-  length_table = {}
-  for charactor_len in range(1,50):
-    length_table[charactor_len] = 0
-  for word in words:
-    length_table[len(word) - 2] += 1
-  return length_table
-
+# Build the words dictionary from english_word with a same length
 def setup_list(length):
   temp_list = []
   plaintext = fileread.PLAINTEXT()
@@ -63,6 +44,9 @@ def setup_list(length):
   return temp_list
 
 
+
+
+# Comvert input cipher string to num list
 def text_to_num_list(text):
   num = []
   for words in text.split(' '):
@@ -80,6 +64,11 @@ def text_to_num_list(text):
     num.append(temp)
   return num
 
+
+
+
+
+# reset text-cipher table
 def reset_dictionary(num_to_key):
   temp_dic = deepcopy(KEY_TABLE)
   for key, value in num_to_key.iteritems():
@@ -88,6 +77,15 @@ def reset_dictionary(num_to_key):
 
 
 
+
+# Main algorithm function
+# Input ciper list which is sorted by length, longest to shortest 
+# Create words list for different length of cipher
+# Depth First Searching algorithm
+# From cipher words[i], search first no-conflict plaintext from dictionary with same words length
+# If success get a plintext, i++
+# Else, i--, pop previous cipher's plaintext
+# Conflict checking by both cipher_to_text and text_to_cipher table
 def assign_key(temp_cipher):
   reset_num_list = {}
   key_table_temp = deepcopy(KEY_TABLE)
@@ -169,6 +167,9 @@ def assign_key(temp_cipher):
     # cipher[i] can't fit in plain[i]
     # roll back to i-1
     if not flagk:
+      if i == 0:
+        num_to_key = []
+        return num_to_key
       flag_list.remove(i)
       for key in reset_temp_num_list:
         del num_to_key[key]
@@ -193,30 +194,49 @@ def assign_key(temp_cipher):
 
 
 if __name__ == "__main__":
-  plaintext = "plunderable jawbreaker laundresses broncos dot siberia pastilles braced supernumerary risking creosotes sanatory befuddle fumes cesiums straitly redelivering buffeting appestat panelled hairlocks autogenesis biddies bazar neurology marital anodization dung logways feyest dismortgaged treats responses curia inexpensive hyperventilation gridlock menstruant bier locoed boogyman overprecisely muzzle bestowing amassed cosigns greeting repulsing shellacked mixture pommeled skiers fudging unlighted fetid simper tulip washroom singular studios reproachfully spectra wizard coopts synthesizing repackage waxings bellmen foreboded blowtubes parols unjustification rationalizations loran entrenchment smog latinize tactually swaps oversensitively orrery photosynthesizes rouging frizzly strapper saintdom ultramicrotome older vaginitis pyruvic bureaucratized topic equipments sillies sewage ventage blind creping stood barbarians"
-  ciphertext = "62,20,6,26 4,90,61,42,79,67,14,7,63,90,71,84,20,17,7,73,19 16,51,61,72,71,12,31,21,35,34,50,83,56 40,90,57,7,4,83,86,88,56 13,54,12,5,71,99,4,7,81,24 11,50,57,25,90,71,81,72,22,64,52,13 42,46,81,54,71,78,15,33,27,89,4 19,93,18,84,94,77,102,39,55,73 23,17,36,25,88,49,67,47 2,53,3,75,0,96,47 48,12,13,93,94,76,7,63,13 41,98,86,52,102,54,14 93,17,80,48,13,97,59,62 7,55,88,42,61,16,17,1,48,96,78 82,16,6,32,83,56 32,90,34,77,12,38 62,54,18,5,57,61,3,71 52,8,55,101,87,85,86,22,47,83,56 15,33,7,15,58,90,80,77,74,73 44,45,46,16,62 63,86,43,31,30,79,51,56 1,84,43,64,29,24,65,97,13 64,52,29,77,79,67,86,21,9,82 1,68,72,14,98,57,90,101,84,68,17 78,5,83,72,15,43,83,56"
-  length_table = get_length_table(ciphertext)
+  print "\n\n************************************************************************"
+  print "* Title  : Project 1 (Cryptanalysis: decryption of permutation ciphers)"
+  print "* Decryptor for test#2"
+  print "* Author : Yu Hu, Heng Lin and Aravind Vadakkalpradeepkumar"
+  print "* Date   : 03/12/2016 "
+  print "************************************************************************\n\n";
+
+  while True:
+    print "Please input your cipher text:"
+    cipher_text = raw_input("--->")
+    #cipher_text = enc.enc_test_1(temp_str)
+    temp_cipher = text_to_num_list(cipher_text)
+    if len(temp_cipher) == 0:
+      print "Invalid cipher text input\n please reinput your cipher\n"
+    else:
+      break
+
   num_to_key = {}
 
-  length = max(length_table.keys())
-  table = len_distribution_english_words()
-  list_dic = {}
-  list_dic[length] = setup_list(length)
-
-  temp_cipher = text_to_num_list(ciphertext)
   sorted_cipher = deepcopy(temp_cipher)
   sorted_cipher.sort(key = len, reverse = True)
 
   start_time = time.time()
   num_text = assign_key(sorted_cipher)
 
-  print num_text
-  string = ""
+  if len(num_text) == 0:
+    print "The cipher text is not encrpted from the word in the english_words"
+  else:
+    key_table_temp = {}
+    key_table_temp = deepcopy(reset_dictionary(num_text))
 
-  for num in temp_cipher:
-    for i in num:
-      string += num_text[i]
-    string += ' '
+    print "The key table is shown below:"
+    print key_table_temp
 
-  print string
-  print("--- %s seconds ---" % (time.time() - start_time))
+    string = ""
+
+    for num in temp_cipher:
+      for i in num:
+        string += num_text[i]
+      string += ' '
+
+    print "The plaintext for cipher is shown below:"
+    print string
+    print("--- %s seconds ---" % (time.time() - start_time))
+
+    print "Thank you for your using."

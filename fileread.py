@@ -1,3 +1,11 @@
+"""
+<Program Name>
+  filread.py
+<Purpose>
+  This module hepls to read the plaintext file
+"""
+
+
 class PLAINTEXT:
   def __init__(self):
     self.english_words = []

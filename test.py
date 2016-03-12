@@ -1,12 +1,26 @@
+"""
+<Program Name>
+  <Hu><Lin><Vadakkalpradeepkumar>-decrypt1.py
+<Purpose>
+  This script implements the decryptor for course CS6903 project1, test#1.
+  The decryptor works for decrypting the cipher text which is 
+  randomly select from plaintext_dictionary.txt with five 500 hundres characters plaintext,
+  and encrypted by permutatino ciphers.  
+"""
+
 import fileread
-import enc
 from copy import deepcopy
 
+
+# Initial KEY_TABLE
 KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [], 
               'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [], 
               'o': [],'p': [], 'q': [], 'r': [],'s': [], 't': [], 
               'u': [],'v': [], 'w': [], 'x': [], 'y': [], 'z': []}
 
+
+
+# Settup the encryption rule for each characters
 KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2, 
               'h': 6, 'i': 7,'j': 1, 'k': 1, 'l': 4,'m': 2, 'n': 7, 
               'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9, 
@@ -80,6 +94,12 @@ def assign_key(text, numlist):
 # main
 # may add a function later
 if __name__ == "__main__":
+  print "\n\n************************************************************************"
+  print "* Title  : Project 1 (Cryptanalysis: decryption of permutation ciphers)"
+  print "* Decryptor for test#2"
+  print "* Author : Yu Hu, Heng Lin and Aravind Vadakkalpradeepkumar"
+  print "* Date   : 03/12/2016 "
+  print "************************************************************************\n\n";
   plaintext = fileread.PLAINTEXT()
   temp_str = ' '.join(plaintext.dictionary[4])
   while True:
@@ -102,8 +122,7 @@ if __name__ == "__main__":
     found_flag = 0
     for i in itr:
       if(assign_key(plaintext.dictionary[i], cipher_num)):
-        print "Found a fit plaintext!"
-        print "The plaintext is shown as below:"
+        print "\nFound a fit plaintext! The plaintext is shown as below:\n"
         temp_str = ' '.join(plaintext.dictionary[i])
         found_flag += 1
         print temp_str
