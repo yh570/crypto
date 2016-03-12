@@ -34,14 +34,12 @@ def text_to_num_list(text):
   return num
 
 
-
 # Comparing each words length between ciphertext and plaintext
 def _length_compare(text, numlist):
   if len(text) != len(numlist):
     return False
   for i in range(0, len(text)):
     if len(text[i]) != len(numlist[i]):
-      print text[i], len(text[i]), numlist[i], len(numlist[i])
       return False
   return True
 
@@ -51,7 +49,6 @@ def _length_compare(text, numlist):
 def find_fit_length_plaintext(dictionary,cipher_num):
   itr = []
   for i in range(0,len(dictionary)):
-    print dictionary[i]
     if _length_compare(dictionary[i], cipher_num):
       itr.append(i)
   return itr
@@ -88,8 +85,6 @@ while True:
   cipher_text = raw_input("--->")
   #cipher_text = enc.enc_test_1(temp_str)
   cipher_num = text_to_num_list(cipher_text)
-  print len(cipher_num)
-  print cipher_num
   if len(cipher_num) == 0:
     print "Invalid cipher text input\n please reinput your cipher\n"
   else:

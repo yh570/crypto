@@ -1,5 +1,7 @@
 import enc
 import fileread
+import time
+from copy import deepcopy
 
 KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [], 
               'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [], 
@@ -79,14 +81,14 @@ def text_to_num_list(text):
   return num
 
 def reset_dictionary(num_to_key):
-  temp_dic = KEY_TABLE
+  temp_dic = deepcopy(KEY_TABLE)
   for key, value in num_to_key.iteritems():
     temp_dic[value].append(key)
   return temp_dic
 
 
 def assign_key(key_table_temp, temp_cipher, num_to_key):
-  reset_num_list = []
+  reset_num_list = {}
   plain_list = []
   reset_temp_num_list = []
   flag = True
@@ -101,62 +103,78 @@ def assign_key(key_table_temp, temp_cipher, num_to_key):
 
   while i < len(temp_cipher):
     if i not in flag_list:
+      if len(plain_list) > i:
+        del plain_list[i:]
       plain_list.append(setup_list(len(temp_cipher[i])))
       flag_list.append(i)
-    while k < len(plain_list[i]):
+      flag_list.sort()
+
+
+
+    while len(plain_list[i]) > 0:
+
+      flag = True
+
       while j < len(temp_cipher[i]):
         if temp_cipher[i][j] not in num_to_key:
           # conflict
-          if len(key_table_temp[plain_list[i][k][j]]) == KEY_LENGTH[plain_list[i][k][j]]:
+          if len(key_table_temp[plain_list[i][0][j]]) == KEY_LENGTH[plain_list[i][0][j]]:
             flag = False
             for key in reset_temp_num_list:
               del num_to_key[key]
             key_table_temp = reset_dictionary(num_to_key) 
             reset_temp_num_list = []
-            del plain_list[i][k]
             break
           # no conflict
-          key_table_temp[plain_list[i][k][j]].append(temp_cipher[i][j])
-          num_to_key[temp_cipher[i][j]] = plain_list[i][k][j]
+          key_table_temp[plain_list[i][0][j]].append(temp_cipher[i][j])
+          num_to_key[temp_cipher[i][j]] = plain_list[i][0][j]
           reset_temp_num_list.append(temp_cipher[i][j])
           j = j+1
         else:
           # conflict
-          if num_to_key[temp_cipher[i][j]] != plain_list[i][k][j]:
+          if num_to_key[temp_cipher[i][j]] != plain_list[i][0][j]:
             flag = False
             for key in reset_temp_num_list:
               del num_to_key[key]
-            key_table_temp = reset_dictionary(num_to_key) 
+            key_table_temp = {}
+            key_table_temp = deepcopy(reset_dictionary(num_to_key))
             reset_temp_num_list = []
-            del plain_list[i][k]
             break
           j = j+1
+
+
+
       # plain[i][k] is fit for cipher[i]
       if flag:
-        reset_num_list.append(reset_temp_num_list)
+        reset_num_list[i] = reset_temp_num_list
         reset_temp_num_list = []
         flagk = True
         j = 0
         break
       # plain[i][k] is not fit for cipher[i], k++
       else:
+        j=0
+        del plain_list[i][0]
         flagk = False
-        flag = True
 
     # cipher[i] can't fit in plain[i]
     # roll back to i-1
     if not flagk:
-      del flag_list[i]
+      flag_list.remove(i)
+      for key in reset_temp_num_list:
+        del num_to_key[key]
+      reset_temp_num_list = []
       i = i-1
       for key in reset_num_list[i]:
         del num_to_key[key]
-      key_table_temp = reset_dictionary(num_to_key) 
+      key_table_temp = {}
+      key_table_temp = deepcopy(reset_dictionary(num_to_key))
+      del reset_num_list[i]
       del plain_list[i][0]
       flagk = True
     else:
       i = i+1
-      flagk = True
-  print num_to_key
+  return num_to_key
 
 
 
@@ -187,13 +205,21 @@ if __name__ == "__main__":
   table = len_distribution_english_words()
   list_dic = {}
   list_dic[length] = setup_list(length)
+
   temp_cipher = text_to_num_list(ciphertext)
-  temp_cipher.sort(key = len, reverse = True)
-  key_table_temp = KEY_TABLE
+  sorted_cipher = deepcopy(temp_cipher)
+  sorted_cipher.sort(key = len, reverse = True)
+  key_table_temp = deepcopy(KEY_TABLE)
+  start_time = time.time()
+  num_text = assign_key(key_table_temp, sorted_cipher, num_to_key)
 
-  assign_key(key_table_temp, temp_cipher, num_to_key)
+  print num_text
+  string = ""
 
+  for num in temp_cipher:
+    for i in num:
+      string += num_text[i]
+    string += ' '
 
-
-
-
+  print string
+  print("--- %s seconds ---" % (time.time() - start_time))
