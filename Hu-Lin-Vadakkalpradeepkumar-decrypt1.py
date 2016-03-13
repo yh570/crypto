@@ -96,7 +96,7 @@ def assign_key(text, numlist):
 if __name__ == "__main__":
   print "\n\n************************************************************************"
   print "* Title  : Project 1 (Cryptanalysis: decryption of permutation ciphers)"
-  print "* Decryptor for test#2"
+  print "* Decryptor for test#1"
   print "* Author : Yu Hu, Heng Lin and Aravind Vadakkalpradeepkumar"
   print "* Date   : 03/12/2016 "
   print "************************************************************************\n\n";
