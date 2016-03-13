@@ -3,9 +3,9 @@
   Hu-Lin-Vadakkalpradeepkumar-decrypt2.py
 <Purpose>
   This script implements the decryptor for course CS6903 project1, test#2.
-  The decryptor works for decrypting the cipher text which is 
+  The decryptor works for decrypting the cipher text which is
   randomly select 500 characters from known plaintext with 100k words,
-  and encrypted by permutatino ciphers.  
+  and encrypted by permutatino ciphers.
 """
 
 
@@ -18,17 +18,17 @@ from copy import deepcopy
 
 
 # Initial KEY_TABLE
-KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [], 
-              'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [], 
-              'o': [],'p': [], 'q': [], 'r': [],'s': [], 't': [], 
+KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [],
+              'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [],
+              'o': [],'p': [], 'q': [], 'r': [],'s': [], 't': [],
               'u': [],'v': [], 'w': [], 'x': [], 'y': [], 'z': []}
 
 
 
 # Settup the encryption rule for each characters
-KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2, 
-              'h': 6, 'i': 7,'j': 1, 'k': 1, 'l': 4,'m': 2, 'n': 7, 
-              'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9, 
+KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2,
+              'h': 6, 'i': 7,'j': 1, 'k': 1, 'l': 4,'m': 2, 'n': 7,
+              'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9,
               'u': 3,'v': 1, 'w': 2, 'x': 1, 'y': 2, 'z': 1}
 
 
@@ -79,7 +79,7 @@ def reset_dictionary(num_to_key):
 
 
 # Main algorithm function
-# Input ciper list which is sorted by length, longest to shortest 
+# Input ciper list which is sorted by length, longest to shortest
 # Create words list for different length of cipher
 # Depth First Searching algorithm
 # From cipher words[i], search first no-conflict plaintext from dictionary with same words length
@@ -129,7 +129,7 @@ def assign_key(temp_cipher):
             flag = False
             for key in reset_temp_num_list:
               del num_to_key[key]
-            key_table_temp = reset_dictionary(num_to_key) 
+            key_table_temp = reset_dictionary(num_to_key)
             reset_temp_num_list = []
             break
           # no conflict
@@ -240,3 +240,5 @@ if __name__ == "__main__":
     print("--- %s seconds ---" % (time.time() - start_time))
 
     print "Thank you for your using."
+
+  raw_input("Press any key to exit...")

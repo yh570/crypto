@@ -3,9 +3,9 @@
   Hu-Lin-Vadakkalpradeepkumar-decrypt1.py
 <Purpose>
   This script implements the decryptor for course CS6903 project1, test#1.
-  The decryptor works for decrypting the cipher text which is 
+  The decryptor works for decrypting the cipher text which is
   randomly select from plaintext_dictionary.txt with five 500 hundres characters plaintext,
-  and encrypted by permutatino ciphers.  
+  and encrypted by permutatino ciphers.
 """
 
 import fileread
@@ -13,17 +13,17 @@ from copy import deepcopy
 
 
 # Initial KEY_TABLE
-KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [], 
-              'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [], 
-              'o': [],'p': [], 'q': [], 'r': [],'s': [], 't': [], 
+KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [],
+              'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [],
+              'o': [],'p': [], 'q': [], 'r': [],'s': [], 't': [],
               'u': [],'v': [], 'w': [], 'x': [], 'y': [], 'z': []}
 
 
 
 # Settup the encryption rule for each characters
-KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2, 
-              'h': 6, 'i': 7,'j': 1, 'k': 1, 'l': 4,'m': 2, 'n': 7, 
-              'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9, 
+KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2,
+              'h': 6, 'i': 7,'j': 1, 'k': 1, 'l': 4,'m': 2, 'n': 7,
+              'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9,
               'u': 3,'v': 1, 'w': 2, 'x': 1, 'y': 2, 'z': 1}
 
 
@@ -131,6 +131,8 @@ if __name__ == "__main__":
       print "Totally found ", found_flag, " plaintext fit for this cipher_text\n"
     else:
       print "The input cipher text was not encrypted from known plaintext\n"
+
+  raw_input("Press any key to exit...")
 
 
 
