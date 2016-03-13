@@ -1,5 +1,12 @@
+# <Program Name>
+#  enc.py
+# <Purpose>
+#  This script implements the encryptor for Test 1 and Test 2.
+#  It's used to create samples for test1 and test 2 to verify the correctness of Test 1 and Test 2
+
 import random
 
+# DEBUG FLAG
 DEBUG = 1
 
 L = 500
@@ -9,10 +16,18 @@ KEY_LENGTH = {'a': 8, 'b': 1, 'c': 3, 'd': 4, 'e': 13, 'f': 2,'g': 2,
               'o': 8,'p': 2, 'q': 1, 'r': 6,'s': 6, 't': 9,
               'u': 3,'v': 1, 'w': 2, 'x': 1, 'y': 2, 'z': 1}
 
+
+# The computation of which key is returned by the algorithm is
+# based on a scheduling algorithm which is intentionally left
+# unknown and is a deterministic algorithm.
+# This function is a supposed algorithm.
+# It may depend on j, L and the length of the list on that row.
 def unknown_deterministic_algorithm(j, L, length_current_key):
   return j % length_current_key
   # return j * L % length_current_key
 
+
+# Generate the plaintext-to-ciphertext table
 def enc_cipher_maps_gen():
   cipher_maps = {}
   for key in KEY_LENGTH:
@@ -25,6 +40,9 @@ def enc_cipher_maps_gen():
       count += 1
   return cipher_maps
 
+# Generate the plaintext for Test 2
+# Each word is randomly chosen from english dictionary words
+# 'english_words.txt' should be placed in the same path
 def test_2_plaintext_gen():
   plaintext = ""
   f = open('english_words.txt')
@@ -34,9 +52,12 @@ def test_2_plaintext_gen():
 
   for i in range(WORDS_NUM):
     plaintext += english_words[random_index[i]][:-2] + " "
+
   # delete last space-separate
   return plaintext[:-1]
 
+# Generate ciphertext for Test 1
+# Input is string type
 def enc_test_1(plaintext):
   ciphertext = ""
   cipher_maps = enc_cipher_maps_gen()
@@ -55,7 +76,8 @@ def enc_test_1(plaintext):
 
   return ciphertext
 
-# return tuple of plaintext and ciphertext
+# Generate ciphertext for Test 2
+# Input is string type
 def enc_test_2(plaintext):
   ciphertext = ""
   cipher_maps = enc_cipher_maps_gen()
@@ -70,6 +92,7 @@ def enc_test_2(plaintext):
         ciphertext += ","
   return ciphertext
 
+# For Unit Test
 if __name__ == "__main__":
   #plaintext_test = "revelation revering rightest impersonalize juliennes scientists reemphasizing propose crony bald pampering discharged lincoln authoresses interacted laked bedmaker intolerably beltlines warningly worldliness serologic bottom guessed hangup vitiates snaky polypous manifolding sweatshirt divisiveness decapitation musketry versers pizzas aperies reorganizes fender presentations thereuntil fly entrapped causewayed shaped freemasonry nudging efflorescence hydrated zazen exegeses fracas unprogressivel"
   #print enc_test_1(plaintext_test)

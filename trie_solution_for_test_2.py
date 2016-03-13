@@ -1,5 +1,4 @@
 import trie
-import copy
 
 KEY_TABLE = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [],'g': [],
               'h': [], 'i': [],'j': [], 'k': [], 'l': [],'m': [], 'n': [],
@@ -31,6 +30,8 @@ def check_assign_number_to_charactor(table):
         check_table[table[i]].append(i)
   for i in check_table:
     if len(check_table[i]) > KEY_LENGTH[i]:
+      # print "!!!!!!!!!!!!!!!!!!!"
+      # print table
       return False
   return True
 
@@ -67,7 +68,7 @@ def check_previous(prev_words):
   return True
 
 def search(trie_alphabet, table, i, current, prev_words):
-  print current
+  print current, i
   if i == len(wordchain) and check_assign_number_to_charactor(table) == True and check_legal_word(current, trie_alphabet) == True and check_previous(prev_words) == True:
     print table_to_plaintext(table, ll)
     print table #DEBUG
@@ -79,33 +80,40 @@ def search(trie_alphabet, table, i, current, prev_words):
       prev_words.append(current)
       current = ""
     else:
-      i = i - len(current)
+      # print "?????????????????"
+      # i = i - len(current)
       # prev_words.pop(-1)
-      return
-  if check_assign_number_to_charactor(table) == False:
-    return
+      return (table,current,i - 1)
+
   if table[int(wordchain[i])] == "":
     for ch in alphabet:
       current += ch
+      num_to_table[int(wordchain[i])] = table
       table = add_to_table(int(wordchain[i]), ch, table);
+        # exit()
       if check_legal_prefix(current, trie_alphabet) == True and check_assign_number_to_charactor(table) == True and check_previous(prev_words) == True:
         # print i, 2 #DEBUG
         search(trie_alphabet, table, i + 1, current, prev_words)
+      print "!!!!"
       current = current[:-1]
       table = delete_from_table(int(wordchain[i]), ch, table)
+      # return (table,current,i - 1)
   else:
     ch = table[int(wordchain[i])]
     current += ch
     table = add_to_table(int(wordchain[i]), ch, table);
-    if check_legal_prefix(current, trie_alphabet) == True and check_assign_number_to_charactor(table) == True and check_previous(prev_words) == True:
+    if check_assign_number_to_charactor(table) == false:
+      index = wordchain.index(wordchain[i])
+      current = current[:index]
+      table = num_to_table[int(wordchain[index])]
+      return (table,current,index)
+    if check_legal_prefix(current, trie_alphabet) == True and check_previous(prev_words) == True:
       # print i, 1 #DEBUG
       search(trie_alphabet, table, i + 1, current, prev_words)
+
     current = current[:-1]
     table = delete_from_table(int(wordchain[i]), ch, table)
-
-
-
-
+    return (table,current,i - 1)
 
 if __name__ == "__main__":
   #plaintext = "plunderable jawbreaker laundresses broncos dot siberia pastilles braced supernumerary risking creosotes sanatory befuddle fumes cesiums straitly redelivering buffeting appestat panelled hairlocks autogenesis biddies bazar neurology marital anodization dung logways feyest dismortgaged treats responses curia inexpensive hyperventilation gridlock menstruant bier locoed boogyman overprecisely muzzle bestowing amassed cosigns greeting repulsing shellacked mixture pommeled skiers fudging unlighted fetid simper tulip washroom singular studios reproachfully spectra wizard coopts synthesizing repackage waxings bellmen foreboded blowtubes parols unjustification rationalizations loran entrenchment smog latinize tactually swaps oversensitively orrery photosynthesizes rouging frizzly strapper saintdom ultramicrotome older vaginitis pyruvic bureaucratized topic equipments sillies sewage ventage blind creping stood barbarians"
@@ -129,9 +137,11 @@ if __name__ == "__main__":
   for i in range(103):
     table[i] = ""
   trie_alphabet = build_alphabet_trie()
+  num_to_table = [{}]*103
   # print trie_alphabet.find_prefix("")
   # print ll
   # print len(ciphertext)
   search(trie_alphabet = trie_alphabet, table = table, i = 0, current = "", prev_words = [])
-
+  #print check_assign_number_to_charactor({0: '', 1: '', 2: '', 3: '', 4: 't', 5: '', 6: 'h', 7: 'a', 8: '', 9: '', 10: '', 11: 'a', 12: '', 13: '', 14: '', 15: '', 16: '', 17: '', 18: '', 19: '', 20: '', 21: 'a', 22: 'd', 23: 'r', 24: '', 25: '', 26: '', 27: 'a', 28: 'v', 29: '', 30: '', 31: 'd', 32: '', 33: '', 34: '', 35: 'i', 36: '', 37: '', 38: '', 39: '', 40: 'a', 41: '', 42: '', 43: '', 44: '', 45: 'r', 46: '', 47: '', 48: 'k', 49: '', 50: '', 51: '', 52: '', 53: '', 54: '', 55: '', 56: '', 57: '', 58: '', 59: '', 60: '', 61: '', 62: '', 63: '', 64: '', 65: '', 66: 'g', 67: 'a', 68: '', 69: 'n', 70: '', 71: 'a', 72: 'd', 73: '', 74: '', 75: '', 76: '', 77: '', 78: 'h', 79: '', 80: '', 81: '', 82: '', 83: '', 84: '', 85: '', 86: 'a', 87: '', 88: 'a', 89: 'c', 90: '', 91: '', 92: '', 93: '', 94: '', 95: '', 96: '', 97: '', 98: '', 99: '', 100: '', 101: '', 102: 'e'})
+  #print wordchain.index("7")
 
