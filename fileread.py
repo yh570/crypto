@@ -47,5 +47,4 @@ class PLAINTEXT:
             temp.append(word)
       self.dictionary.append(temp)
 
-    self.dictionary.append(["who", "are", "you", "bbb"])
 

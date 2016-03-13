@@ -1,6 +1,6 @@
 """
 <Program Name>
-  <Hu><Lin><Vadakkalpradeepkumar>-decrypt1.py
+  Hu-Lin-Vadakkalpradeepkumar-decrypt1.py
 <Purpose>
   This script implements the decryptor for course CS6903 project1, test#1.
   The decryptor works for decrypting the cipher text which is 
@@ -103,6 +103,7 @@ if __name__ == "__main__":
   plaintext = fileread.PLAINTEXT()
   temp_str = ' '.join(plaintext.dictionary[4])
   while True:
+    print "Please enter your cipher text"
     cipher_text = raw_input("--->")
     #cipher_text = enc.enc_test_1(temp_str)
     cipher_num = text_to_num_list(cipher_text)

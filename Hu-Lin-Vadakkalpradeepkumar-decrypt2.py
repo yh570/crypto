@@ -1,6 +1,6 @@
 """
 <Program Name>
-  <Hu><Lin><Vadakkalpradeepkumar>-decrypt2.py
+  Hu-Lin-Vadakkalpradeepkumar-decrypt2.py
 <Purpose>
   This script implements the decryptor for course CS6903 project1, test#2.
   The decryptor works for decrypting the cipher text which is 
